@@ -1,0 +1,19 @@
+{
+  "name": "load_agent",
+  "version": "1.0.0",
+  "description": "This is the Load Balancer that route to different registered node",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "http-proxy": "^1.18.1",
+    "log4js": "^6.5.2",
+    "redis": "^4.1.0"
+  }
+}
