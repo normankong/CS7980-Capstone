@@ -1,0 +1,22 @@
+{
+  "name": "load_agent",
+  "version": "1.0.0",
+  "description": "This is the Load Agent that keep tracking worker node information",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "log4js": "^6.5.2",
+    "node-redis-pubsub": "^5.0.0",
+    "redis": "^4.1.0",
+    "socket.io": "^4.5.1"
+  }
+}
