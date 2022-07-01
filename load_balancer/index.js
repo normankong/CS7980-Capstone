@@ -6,6 +6,11 @@ const router = require("./manager/routingManager.js");
 // Init Log4J
 log4js.configure("./config/log4js.json");
 
+// Initial Router
+const REDIS_HOST = process.env.REDIS_HOST;
+const REDIS_PORT = process.env.REDIS_PORT;
+router.init(REDIS_HOST, REDIS_PORT);
+
 var serverCallback = function(req, res) {
   router.handle(req, res);
 };
@@ -13,22 +18,4 @@ var serverCallback = function(req, res) {
 var server = http.createServer(serverCallback);
 
 server.listen(8080);
-
-
-
-// var http = require('http'),
-//     httpProxy = require('http-proxy');
-// //
-// // Create your proxy server and set the target in the options.
-// //
-// httpProxy.createProxyServer({target:'http://127.0.0.1:3000', changeOrigin : true}).listen(8000); 
- 
-// //
-// // Create your target server
-// //
-// http.createServer(function (req, res) {
-//   res.writeHead(200, { 'Content-Type': 'text/plain' });
-//   res.write('request successfully proxied!' + '\n' + JSON.stringify(req.headers, true, 2));
-//   res.end();
-// }).listen(9000);
 

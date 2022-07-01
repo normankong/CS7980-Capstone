@@ -52,8 +52,11 @@ server.listen(3000, () => {
   const REDIS_SCOPE = process.env.REDIS_SCOPE;
   controller.init(REDIS_HOST, REDIS_PORT, REDIS_SCOPE);
 
-  logger.info(`Initialize Cache Manager`)
+  logger.info(`Initialize Cache Manager`);
   cm.init(REDIS_HOST, REDIS_PORT);
+
+  logger.info(`Cleanup orphan records`);
+  cm.cleanup();
 
   logger.info("Load Agent is listening on 3000");
 });

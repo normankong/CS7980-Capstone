@@ -13,12 +13,19 @@ This component wait for notification message triggered by Load Agent. When Load 
 ## Development
 ```code
 # To build image 
-docker build . -t load_agent
+docker build . -t recovery_agent
 
 # Deploy to Docker
 docker run \
--e REDIS_CONNECTION_URL="redis://host.docker.internal:6379" \
---name LoadAgent \
--p 3000:3000 \
--d load_agent
+-e NODE_PORT=8080 \
+-e NODE_PREFIX=WorkerNode- \
+-e EXTERNAL_HOST=host.docker.internal \
+-e LOAD_AGENT_URL=http://host.docker.internal:3000 \
+-e IMAGE_NAME=resource_agent \
+-e REDIS_HOST=host.docker.internal \
+-e REDIS_PORT=6379 \
+-e REDIS_SCOPE=RQ \
+--name RecoveryAgent \
+-p 3001:3001 \
+-d recovery_agent
 ```

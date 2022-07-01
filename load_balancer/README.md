@@ -1,6 +1,17 @@
+# Load Balancer
+This is the internal facing application that receive client request, then apply resource awareness routing algorithm to dispatch to best available worker node.
+
+## Resource Awareness Routing Algorithm (RARA)
+This algorithm will first retrieve all the active worker nodes information, base on the incoming request QOS class, find the best node that available resource with range between 10%-20%. If there is no "Best fit" node, then assign the highest usage node to handle the request.
+
+## Build
+```
+# Build the Image
 docker build . -t load_balancer
 
+# Run the Docker Container
 docker run \
--e REDIS_CONNECTION_URL="redis://host.docker.internal:6379" \
---rm --name LoadBalancer \
+-e REDIS_HOST=host.docker.internal \
+-e REDIS_PORT=6379 \
+--name LoadBalancer \
 -p 8080:8080 -d load_balancer

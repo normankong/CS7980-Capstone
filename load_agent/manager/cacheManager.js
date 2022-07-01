@@ -6,20 +6,27 @@ const CacheManager = class {
   client = null;
 
   constructor(host, port) {
-    this.client = createClient(host, port);
+    let url = `redis://${host}:${port}`;
+
+    logger.info(`Connecting to redis ${url}`);
+    this.client = createClient({ url });
 
     this.client.on("error", (err) => logger.info("Redis Client Error", err));
 
     this.client
       .connect()
       .then((x) => logger.info("Connection to Redis success"));
-
-    this.cleanup();
   }
 
   register = (socket, data) => {
     logger.info(`Register Redis : ${data.info.nodeName} ${data.cpu.free}`);
-    this.client.HSET(`WorkerNode-${socket.id}`, "data", JSON.stringify(data)).then(x=>logger.info(`Registeration completed for ${socket.id} - ${data.info.nodeName}`));
+    this.client
+      .HSET(`WorkerNode-${socket.id}`, "data", JSON.stringify(data))
+      .then((x) =>
+        logger.info(
+          `Registeration completed for ${socket.id} - ${data.info.nodeName}`
+        )
+      );
   };
 
   update = (socket, data) => {
@@ -55,7 +62,7 @@ const CacheManager = class {
     let list = await this.client.keys("WorkerNode-*");
     for (let i = 0; i < list.length; i++) {
       let node = list[i];
-      let json = await this.client.DEL(node);
+      await this.client.DEL(node);
     }
     logger.info(`Clean up Redis ${list.length} records`);
   };
@@ -64,11 +71,11 @@ const CacheManager = class {
 let manager = null;
 
 exports.register = (socket, data) => {
-  manager.register(socket, data)
+  manager.register(socket, data);
 };
 
 exports.update = (socket, data) => {
-  manager.update(socket, data)
+  manager.update(socket, data);
 };
 
 exports.delete = (socket) => {
@@ -82,6 +89,10 @@ exports.get = async (socket) => {
 exports.list = async () => {
   let result = await manager.list();
   return result;
+};
+
+exports.cleanup = async () => {
+  manager.cleanup();
 };
 
 exports.init = async (host, port) => {

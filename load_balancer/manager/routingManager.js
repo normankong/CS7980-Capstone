@@ -27,32 +27,40 @@ const performRARA = (servers, req) => {
   if (servers.length == 1) return servers[0];
 
   let qosclass = parseInt(req.headers.qosclass, 10) || 20;
-  logger.info(`Incoming request require CPU : ${qosclass}`)
+  logger.info(`Incoming request require CPU : ${qosclass}`);
 
-  let bestFit = servers.find( a => (a.cpu.free > qosclass + 10 && a.cpu.free < qosclass + 20));
+  let bestFit = servers.find(
+    (a) => a.cpu.free > qosclass + 10 && a.cpu.free < qosclass + 20
+  );
   if (bestFit != null) {
     logger.info(`There is best fit node ${bestFit.cpu.free}`);
     return bestFit;
   }
 
-  let list = servers.filter(a=>a.cpu.free > qosclass);
+  let list = servers.filter((a) => a.cpu.free > qosclass);
   if (list.length == 0) {
     logger.info(`There is no servers that have enough ${qosclass} cpu.`);
     return null;
   }
 
-  list = servers.filter(a=>a.cpu.free > qosclass);
+  list = servers.filter((a) => a.cpu.free > qosclass);
 
   // Sort by CPU resource decendingly
-  list.sort((a,b) => { return b.cpu.free - a.cpu.free});
+  list.sort((a, b) => {
+    return b.cpu.free - a.cpu.free;
+  });
 
   // servers.forEach(x => console.log(x.cpu.free));
   return list[0];
-}
+};
+
+exports.init = (host, port) => {
+  cm.init(host, port);
+};
 
 exports.handle = async (req, res) => {
   var handler = await selectServer(req);
-  if (handler == null){
+  if (handler == null) {
     res.end("Outage due to not enough cpu to fullfill the requirement.");
     return;
   }
