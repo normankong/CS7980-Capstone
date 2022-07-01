@@ -4,8 +4,10 @@ When worker node crash, the socket connection will be terminated and Load Agent 
 
 ## Build
 ```
+# Build the Image
 docker build . -t load_agent
 
+# Run the Docker Container
 docker run \
 -e REDIS_HOST=host.docker.internal \
 -e REDIS_PORT=6379 \

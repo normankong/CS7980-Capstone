@@ -13,5 +13,7 @@ docker build . -t load_balancer
 docker run \
 -e REDIS_HOST=host.docker.internal \
 -e REDIS_PORT=6379 \
+-p 8080:8080 \
 --name LoadBalancer \
--p 8080:8080 -d load_balancer
+-d load_balancer
+```

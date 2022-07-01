@@ -25,7 +25,7 @@ docker run \
 -e REDIS_HOST=host.docker.internal \
 -e REDIS_PORT=6379 \
 -e REDIS_SCOPE=RQ \
---name RecoveryAgent \
 -p 3001:3001 \
+--name RecoveryAgent \
 -d recovery_agent
 ```
