@@ -63,12 +63,12 @@ exports.provision = async () => {
   let timestamp = moment().format("YYYYMMDD_hhmmss");
   let randomNumber = getRandomIntInclusive(10000000, 99999999);
   let nodePort = process.env.NODE_PORT;
-  let nodeName = `${process.env.NODE_PREFIX}-${timestamp}-${randomNumber}`;
-  let externalHost = `${process.env.EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
   let externalPort = await portfinder.getPortPromise({
     port: 8081,
     stopPort: 8099,
   });
+  let nodeName = `${process.env.NODE_PREFIX}-${timestamp}-${randomNumber}`;
+  let externalHost = `${process.env.EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
   let loadAgentUrl = process.env.LOAD_AGENT_URL;
   let imageName = process.env.IMAGE_NAME;
   let dockerNetwork = process.env.DOCKER_NETWORK;
@@ -84,7 +84,7 @@ exports.provision = async () => {
   command.push(`-e LOAD_AGENT_URL=${loadAgentUrl}`);
   command.push(`--name ${nodeName}`);
   command.push(`--network ${dockerNetwork}`)
-  command.push(`-p ${externalPort}:${nodePort}`);
+  // command.push(`-p ${externalPort}:${nodePort}`);
   command.push(`-d ${imageName}`);
 
   let commandString = command.join(" ");

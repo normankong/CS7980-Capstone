@@ -20,7 +20,6 @@ export LOAD_AGENT_URL=http://localhost:3000
 export FAIL_LIMIT=1000
 node index.js 
 
-
 export NODE_PORT=8023
 export NODE_NAME=NodeAgentB
 export EXTERNAL_HOST=localhost
@@ -35,38 +34,20 @@ node index.js
 # Build the Docker Image
 docker build . -t resource_agent
 
-docker run \
--e NODE_PORT=8080 \
--e NODE_NAME=NodeAgentX \
--e EXTERNAL_HOST=NodeAgentX \
--e EXTERNAL_PORT=8080 \
--e FAIL_LIMIT=1000 \
--e LOAD_AGENT_URL='http://LoadAgent:3000' \
---name NodeAgentX \
---network capstone \
--p 8011:8080 -d resource_agent
+# Generate Random Instance Name
+NODE_NAME=NodeAgent-$RANDOM
 
+# Run Docker
 docker run \
 -e NODE_PORT=8080 \
--e NODE_NAME=NodeAgentY \
--e EXTERNAL_HOST=NodeAgentY \
+-e NODE_NAME=${NODE_NAME} \
+-e EXTERNAL_HOST=${NODE_NAME} \
 -e EXTERNAL_PORT=8080 \
 -e FAIL_LIMIT=1000 \
 -e LOAD_AGENT_URL='http://LoadAgent:3000' \
---name NodeAgentY \
+--name ${NODE_NAME} \
 --network capstone \
--p 8012:8080 -d resource_agent
-
-docker run \
--e NODE_PORT=8080 \
--e NODE_NAME=NodeAgentZ \
--e EXTERNAL_HOST=NodeAgentZ \
--e EXTERNAL_PORT=8080 \
--e FAIL_LIMIT=1000 \
--e LOAD_AGENT_URL='http://LoadAgent:3000' \
---name NodeAgentY \
---network capstone \
--p 8013:8080 -d resource_agent
+-d resource_agent
 
 
 ### Reference Command
