@@ -30,20 +30,20 @@ const performRARA = (servers, req) => {
   logger.info(`Incoming request require CPU : ${qosclass}`);
 
   let bestFit = servers.find(
-    (a) => a.cpu.free > qosclass + 10 && a.cpu.free < qosclass + 20
+    (a) => a != null && a.cpu.free > qosclass + 10 && a.cpu.free < qosclass + 20
   );
   if (bestFit != null) {
     logger.info(`There is best fit node ${bestFit.cpu.free}`);
     return bestFit;
   }
 
-  let list = servers.filter((a) => a.cpu.free > qosclass);
+  let list = servers.filter((a) => a!= null && a.cpu.free > qosclass);
   if (list.length == 0) {
     logger.info(`There is no servers that have enough ${qosclass} cpu.`);
     return null;
   }
 
-  list = servers.filter((a) => a.cpu.free > qosclass);
+  list = servers.filter((a) => a!=null && a.cpu.free > qosclass);
 
   // Sort by CPU resource decendingly
   list.sort((a, b) => {
@@ -61,6 +61,7 @@ exports.init = (host, port) => {
 exports.handle = async (req, res) => {
   var handler = await selectServer(req);
   if (handler == null) {
+    res.writeHead(502, { 'Content-Type': 'text/plain' });
     res.end("Outage due to not enough cpu to fullfill the requirement.");
     return;
   }
@@ -72,6 +73,7 @@ exports.handle = async (req, res) => {
 
   handler.on("error", function (err) {
     logger.error(`Something happen ${err}`);
+    res.writeHead(503, { 'Content-Type': 'text/plain' });
     res.end(`Outage due to connection lost : ${err}`);
   });
 };

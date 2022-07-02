@@ -11,6 +11,8 @@ This component wait for notification message triggered by Load Agent. When Load 
 2. Trigger docker cli to recycle and reprovision new instance
 
 ## Development
+
+### Warning ! Recovery Agent cannot work as Docker as it will create docker instance
 ```code
 # To build image 
 docker build . -t recovery_agent

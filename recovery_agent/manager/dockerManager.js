@@ -13,6 +13,12 @@ const options = {
   stdin: undefined,
 };
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
+
 exports.listing = async () => {
   var docker = new Docker(options);
   let data = await docker.command("image ls");
@@ -55,24 +61,29 @@ exports.provision = async () => {
   var docker = new Docker(options);
 
   let timestamp = moment().format("YYYYMMDD_hhmmss");
+  let randomNumber = getRandomIntInclusive(10000000, 99999999);
   let nodePort = process.env.NODE_PORT;
-  let nodeName = `${process.env.NODE_PREFIX}-${timestamp}`;
-  let externalHost = process.env.EXTERNAL_HOST;
+  let nodeName = `${process.env.NODE_PREFIX}-${timestamp}-${randomNumber}`;
+  let externalHost = `${process.env.EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
   let externalPort = await portfinder.getPortPromise({
     port: 8081,
     stopPort: 8099,
   });
   let loadAgentUrl = process.env.LOAD_AGENT_URL;
   let imageName = process.env.IMAGE_NAME;
+  let dockerNetwork = process.env.DOCKER_NETWORK;
+  let failLimit = process.env.FAIL_LIMIT;
 
   let command = [];
   command.push(`run `); //--rm
   command.push(`-e NODE_PORT=${nodePort}`);
   command.push(`-e NODE_NAME=${nodeName}`);
   command.push(`-e EXTERNAL_HOST=${externalHost}`);
-  command.push(`-e EXTERNAL_PORT=${externalPort}`);
+  command.push(`-e EXTERNAL_PORT=${nodePort}`);
+  command.push(`-e FAIL_LIMIT=${failLimit}`);
   command.push(`-e LOAD_AGENT_URL=${loadAgentUrl}`);
   command.push(`--name ${nodeName}`);
+  command.push(`--network ${dockerNetwork}`)
   command.push(`-p ${externalPort}:${nodePort}`);
   command.push(`-d ${imageName}`);
 
@@ -83,12 +94,3 @@ exports.provision = async () => {
     logger.info(`Response : `, data);
   });
 };
-
-// // docker run \
-// // -e NODE_PORT=8080 \
-// // -e NODE_NAME=NodeAgentC \
-// // -e EXTERNAL_HOST=host.docker.internal \
-// // -e EXTERNAL_PORT=8083 \
-// // -e LOAD_AGENT_URL='http://host.docker.internal:3000' \
-// // --rm --name NodeAgentC \
-// // -p 8083:8080 -d resource_agent

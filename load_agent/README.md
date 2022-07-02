@@ -14,5 +14,6 @@ docker run \
 -e REDIS_SCOPE=RQ \
 -p 3000:3000 \
 --name LoadAgent \
+--network capstone \
 -d load_agent 
 ```

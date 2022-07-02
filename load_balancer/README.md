@@ -15,5 +15,6 @@ docker run \
 -e REDIS_PORT=6379 \
 -p 8080:8080 \
 --name LoadBalancer \
+--network capstone \
 -d load_balancer
 ```

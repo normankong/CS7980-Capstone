@@ -9,6 +9,7 @@ export NODE_NAME=NodeAgentA
 export EXTERNAL_HOST=localhost
 export EXTERNAL_PORT=8021
 export LOAD_AGENT_URL=http://localhost:3000
+export FAIL_LIMIT=1000
 node index.js 
 
 export NODE_PORT=8022
@@ -16,6 +17,7 @@ export NODE_NAME=NodeAgentB
 export EXTERNAL_HOST=localhost
 export EXTERNAL_PORT=8022
 export LOAD_AGENT_URL=http://localhost:3000
+export FAIL_LIMIT=1000
 node index.js 
 
 
@@ -24,6 +26,7 @@ export NODE_NAME=NodeAgentB
 export EXTERNAL_HOST=localhost
 export EXTERNAL_PORT=8023
 export LOAD_AGENT_URL=http://localhost:3000
+export FAIL_LIMIT=1000
 node index.js 
 ```
 
@@ -32,34 +35,39 @@ node index.js
 # Build the Docker Image
 docker build . -t resource_agent
 
-# Start 3 instances
 docker run \
 -e NODE_PORT=8080 \
--e NODE_NAME=NodeAgentA \
--e EXTERNAL_HOST=host.docker.internal \
--e EXTERNAL_PORT=8011 \
--e LOAD_AGENT_URL='http://host.docker.internal:3000' \
---name NodeAgentA \
+-e NODE_NAME=NodeAgentX \
+-e EXTERNAL_HOST=NodeAgentX \
+-e EXTERNAL_PORT=8080 \
+-e FAIL_LIMIT=1000 \
+-e LOAD_AGENT_URL='http://LoadAgent:3000' \
+--name NodeAgentX \
+--network capstone \
 -p 8011:8080 -d resource_agent
 
 docker run \
 -e NODE_PORT=8080 \
--e NODE_NAME=NodeAgentB \
--e EXTERNAL_HOST=host.docker.internal \
--e EXTERNAL_PORT=8012 \
--e LOAD_AGENT_URL='http://host.docker.internal:3000' \
---name NodeAgentB \
+-e NODE_NAME=NodeAgentY \
+-e EXTERNAL_HOST=NodeAgentY \
+-e EXTERNAL_PORT=8080 \
+-e FAIL_LIMIT=1000 \
+-e LOAD_AGENT_URL='http://LoadAgent:3000' \
+--name NodeAgentY \
+--network capstone \
 -p 8012:8080 -d resource_agent
 
 docker run \
 -e NODE_PORT=8080 \
--e NODE_NAME=NodeAgentC \
--e EXTERNAL_HOST=host.docker.internal \
--e EXTERNAL_PORT=8013 \
--e LOAD_AGENT_URL='http://host.docker.internal:3000' \
---name NodeAgentC \
+-e NODE_NAME=NodeAgentZ \
+-e EXTERNAL_HOST=NodeAgentZ \
+-e EXTERNAL_PORT=8080 \
+-e FAIL_LIMIT=1000 \
+-e LOAD_AGENT_URL='http://LoadAgent:3000' \
+--name NodeAgentY \
+--network capstone \
 -p 8013:8080 -d resource_agent
-```
+
 
 ### Reference Command
 ```
