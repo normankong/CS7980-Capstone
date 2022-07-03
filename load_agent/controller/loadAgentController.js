@@ -1,6 +1,14 @@
 const cm = require("../manager/cacheManager");
 const nm = require("../manager/notificationManager");
-var logger = require("log4js").getLogger("LoadAgentController");
+const elk = require("../manager/elkLogger");
+
+const logger = require("log4js").getLogger("LoadAgentController");
+
+/**
+ * Initialize ELK Logger
+ */
+elk.init();
+
 
 /**
  * Register Node Status
@@ -10,6 +18,9 @@ exports.register = (socket, data) => {
     `Register : ${socket.id}, [${data.info.nodeName} : ${data.cpu.free}%]`
   );
   cm.register(socket, data);
+
+  elk.log(`Load Agent : Register new service, adding ${data.info.nodeName} into inventory`)
+
   return { status: 0001, ttr: 1000 };
 };
 
@@ -33,6 +44,8 @@ exports.init = (host, port, scope) => {
  */
 exports.disconnect = async (socket) => {
   logger.info(`Disconnect ${socket.id}`);
+
+  elk.log(`Load Agent : Service terminated, removing ${socket.id} from inventory`)
 
   let info = await cm.get(socket);
   if (info == null) {

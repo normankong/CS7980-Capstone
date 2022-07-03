@@ -12,22 +12,4 @@ This component wait for notification message triggered by Load Agent. When Load 
 
 ## Development
 
-### Warning ! Recovery Agent cannot work as Docker as it will create docker instance
-```code
-# To build image 
-docker build . -t recovery_agent
-
-# Deploy to Docker
-docker run \
--e NODE_PORT=8080 \
--e NODE_PREFIX=WorkerNode- \
--e EXTERNAL_HOST=host.docker.internal \
--e LOAD_AGENT_URL=http://host.docker.internal:3000 \
--e IMAGE_NAME=resource_agent \
--e REDIS_HOST=host.docker.internal \
--e REDIS_PORT=6379 \
--e REDIS_SCOPE=RQ \
--p 3001:3001 \
---name RecoveryAgent \
--d recovery_agent
-```
+This instance cannot run in docker mode

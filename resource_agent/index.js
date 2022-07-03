@@ -1,6 +1,11 @@
 require("./manager").init();
 
 const logger = require("log4js").getLogger("SampleApplication")
+const elk = require("./manager/elkLogger");
+/**
+ * Initialize ELK Logger
+ */
+elk.init();
 
 /**
  * Sample application to illustrate the High Availability
@@ -12,9 +17,10 @@ let FAIL_LIMIT=process.env.FAIL_LIMIT || 500;
 let count = 0;
 
 var http = require('http')
-http.createServer(function (req, res) {
+http.createServer(async function (req, res) {
 
-  if (count++ > FAIL_LIMIT){
+  if (++count > FAIL_LIMIT){
+    await elk.log(`Resource Agent : Rate Limit exceed, stopping instance ${NODE_NAME} : ${count}/${FAIL_LIMIT}`)
     throw new Error(`Rate Limit exceed ! ${count}`); 
   }
 

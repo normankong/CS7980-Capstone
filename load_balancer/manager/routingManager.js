@@ -1,7 +1,13 @@
-const logger = require("log4js").getLogger();
+const log4js = require('log4js');
+const elk = require("./elkLogger.js");
+const logger = log4js.getLogger();
+
 const proxy = require("http-proxy");
 
 const cm = require("./cacheManager");
+
+// Initialize ELK Logger
+elk.init();
 
 const selectServer = async function (req, res) {
   let servers = await cm.list();
@@ -61,6 +67,7 @@ exports.init = (host, port) => {
 exports.handle = async (req, res) => {
   var handler = await selectServer(req);
   if (handler == null) {
+    elk.log(`Load Balancer : 502 Error : Outage due to not enough cpu to fullfill the requirement.`);
     res.writeHead(502, { 'Content-Type': 'text/plain' });
     res.end("Outage due to not enough cpu to fullfill the requirement.");
     return;
@@ -73,6 +80,7 @@ exports.handle = async (req, res) => {
 
   handler.on("error", function (err) {
     logger.error(`Something happen ${err}`);
+    elk.log(`Load Balancer : 503 Error : ${err}`);
     res.writeHead(503, { 'Content-Type': 'text/plain' });
     res.end(`Outage due to connection lost : ${err}`);
   });

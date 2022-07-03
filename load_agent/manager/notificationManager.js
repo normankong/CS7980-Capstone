@@ -10,7 +10,6 @@ exports.init = (host, port, scope) => {
 
 
 exports.notify = (socket, info) => {
-  // console.log(info)
+  logger.info(`Notify recovery request to ${info.info.nodeName}`)
   nrp.emit('recovery', { info });  
-
 }

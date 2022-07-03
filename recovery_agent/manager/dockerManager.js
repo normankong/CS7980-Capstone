@@ -62,30 +62,43 @@ exports.provision = async () => {
 
   let timestamp = moment().format("YYYYMMDD_hhmmss");
   let randomNumber = getRandomIntInclusive(10000000, 99999999);
-  let nodePort = process.env.NODE_PORT;
-  let externalPort = await portfinder.getPortPromise({
-    port: 8081,
-    stopPort: 8099,
-  });
-  let nodeName = `${process.env.NODE_PREFIX}-${timestamp}-${randomNumber}`;
-  let externalHost = `${process.env.EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
-  let loadAgentUrl = process.env.LOAD_AGENT_URL;
-  let imageName = process.env.IMAGE_NAME;
-  let dockerNetwork = process.env.DOCKER_NETWORK;
-  let failLimit = process.env.FAIL_LIMIT;
+  let NODE_PORT = process.env.NODE_PORT;
+  // let externalPort = await portfinder.getPortPromise({
+  //   port: 8081,
+  //   stopPort: 8099,
+  // });
+  let NODE_NAME = `${process.env.NODE_PREFIX}-${timestamp}-${randomNumber}`;
+  let EXTERNAL_HOST = `${process.env.EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
+  let LOAD_AGENT_URL = process.env.LOAD_AGENT_URL;
+  let IMAGE_NAME = process.env.IMAGE_NAME;
+  let DOCKER_NETWORK = process.env.DOCKER_NETWORK;
+  let FAIL_LIMIT = process.env.FAIL_LIMIT;
+
+  let ELK_INDEX = process.env.ELK_INDEX;
+  let ELK_URL = process.env.ELK_URL;
+  let ELK_USERNAME = process.env.ELK_USERNAME;
+  let ELK_PASSWORD = process.env.ELK_PASSWORD;
+  let ELK_KEY = process.env.ELK_KEY;
 
   let command = [];
   command.push(`run `); //--rm
-  command.push(`-e NODE_PORT=${nodePort}`);
-  command.push(`-e NODE_NAME=${nodeName}`);
-  command.push(`-e EXTERNAL_HOST=${externalHost}`);
-  command.push(`-e EXTERNAL_PORT=${nodePort}`);
-  command.push(`-e FAIL_LIMIT=${failLimit}`);
-  command.push(`-e LOAD_AGENT_URL=${loadAgentUrl}`);
-  command.push(`--name ${nodeName}`);
-  command.push(`--network ${dockerNetwork}`)
-  // command.push(`-p ${externalPort}:${nodePort}`);
-  command.push(`-d ${imageName}`);
+  command.push(`-e NODE_PORT=${NODE_PORT}`);
+  command.push(`-e NODE_NAME=${NODE_NAME}`);
+  command.push(`-e EXTERNAL_HOST=${EXTERNAL_HOST}`);
+  command.push(`-e EXTERNAL_PORT=${NODE_PORT}`);
+  command.push(`-e FAIL_LIMIT=${FAIL_LIMIT}`);
+  command.push(`-e LOAD_AGENT_URL=${LOAD_AGENT_URL}`);
+
+  command.push(`-e ELK_INDEX=${ELK_INDEX}`);
+  command.push(`-e ELK_URL=${ELK_URL}`);
+  command.push(`-e ELK_USERNAME=${ELK_USERNAME}`);
+  command.push(`-e ELK_PASSWORD=${ELK_PASSWORD}`);
+  command.push(`-e ELK_KEY=${ELK_KEY}`);
+  
+  command.push(`--name ${NODE_NAME}`);
+  command.push(`--network ${DOCKER_NETWORK}`)
+  // command.push(`-p ${externalPort}:${NODE_PORT}`);
+  command.push(`-d ${IMAGE_NAME}`);
 
   let commandString = command.join(" ");
   logger.info(`Executing docker ${commandString}`);
