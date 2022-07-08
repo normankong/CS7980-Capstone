@@ -13,7 +13,7 @@ export FAIL_LIMIT=5
 export ELK_INDEX=capstone
 export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
-export ELK_PASSWORD=TlK5gi-knht*X+**qip_
+export ELK_PASSWORD=0IsTKlK0XIHTEHgtS2Rv
 export ELK_KEY=./http_ca.crt
 node index.js 
 
@@ -26,7 +26,7 @@ export FAIL_LIMIT=1000
 export ELK_INDEX=capstone
 export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
-export ELK_PASSWORD=TlK5gi-knht*X+**qip_
+export ELK_PASSWORD=0IsTKlK0XIHTEHgtS2Rv
 export ELK_KEY=./http_ca.crt
 node index.js 
 
@@ -39,7 +39,7 @@ export FAIL_LIMIT=1000
 export ELK_INDEX=capstone
 export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
-export ELK_PASSWORD=TlK5gi-knht*X+**qip_
+export ELK_PASSWORD=0IsTKlK0XIHTEHgtS2Rv
 export ELK_KEY=./http_ca.crt
 node index.js 
 ```
@@ -63,7 +63,7 @@ docker run \
 -e ELK_INDEX=capstone \
 -e ELK_URL=https://host.docker.internal:9200 \
 -e ELK_USERNAME=elastic \
--e ELK_PASSWORD="TlK5gi-knht*X+**qip_" \
+-e ELK_PASSWORD="0IsTKlK0XIHTEHgtS2Rv" \
 -e ELK_KEY=./http_ca.crt \
 --name ${NODE_NAME} \
 --network capstone \

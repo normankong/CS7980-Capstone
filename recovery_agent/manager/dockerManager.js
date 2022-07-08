@@ -62,43 +62,43 @@ exports.provision = async () => {
 
   let timestamp = moment().format("YYYYMMDD_hhmmss");
   let randomNumber = getRandomIntInclusive(10000000, 99999999);
-  let NODE_PORT = process.env.NODE_PORT;
+  let DOCKER_NODE_PORT = process.env.DOCKER_NODE_PORT;
   // let externalPort = await portfinder.getPortPromise({
   //   port: 8081,
   //   stopPort: 8099,
   // });
-  let NODE_NAME = `${process.env.NODE_PREFIX}-${timestamp}-${randomNumber}`;
-  let EXTERNAL_HOST = `${process.env.EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
-  let LOAD_AGENT_URL = process.env.LOAD_AGENT_URL;
-  let IMAGE_NAME = process.env.IMAGE_NAME;
+  let DOCKER_NODE_NAME = `${process.env.DOCKER_NODE_PREFIX}-${timestamp}-${randomNumber}`;
+  let DOCKER_EXTERNAL_HOST = `${process.env.DOCKER_EXTERNAL_HOST}-${timestamp}-${randomNumber}`;
+  let DOCKER_LOAD_AGENT_URL = process.env.DOCKER_LOAD_AGENT_URL;
+  let DOCKER_IMAGE_NAME = process.env.DOCKER_IMAGE_NAME;
   let DOCKER_NETWORK = process.env.DOCKER_NETWORK;
-  let FAIL_LIMIT = process.env.FAIL_LIMIT;
+  let DOCKER_FAIL_LIMIT = process.env.DOCKER_FAIL_LIMIT;
 
-  let ELK_INDEX = process.env.ELK_INDEX;
-  let ELK_URL = process.env.ELK_URL;
-  let ELK_USERNAME = process.env.ELK_USERNAME;
-  let ELK_PASSWORD = process.env.ELK_PASSWORD;
-  let ELK_KEY = process.env.ELK_KEY;
+  let DOCKER_ELK_INDEX = process.env.DOCKER_ELK_INDEX;
+  let DOCKER_ELK_URL = process.env.DOCKER_ELK_URL;
+  let DOCKER_ELK_USERNAME = process.env.DOCKER_ELK_USERNAME;
+  let DOCKER_ELK_PASSWORD = process.env.DOCKER_ELK_PASSWORD;
+  let DOCKER_ELK_KEY = process.env.DOCKER_ELK_KEY;
 
   let command = [];
   command.push(`run `); //--rm
-  command.push(`-e NODE_PORT=${NODE_PORT}`);
-  command.push(`-e NODE_NAME=${NODE_NAME}`);
-  command.push(`-e EXTERNAL_HOST=${EXTERNAL_HOST}`);
-  command.push(`-e EXTERNAL_PORT=${NODE_PORT}`);
-  command.push(`-e FAIL_LIMIT=${FAIL_LIMIT}`);
-  command.push(`-e LOAD_AGENT_URL=${LOAD_AGENT_URL}`);
+  command.push(`-e NODE_PORT=${DOCKER_NODE_PORT}`);
+  command.push(`-e NODE_NAME=${DOCKER_NODE_NAME}`);
+  command.push(`-e EXTERNAL_HOST=${DOCKER_EXTERNAL_HOST}`);
+  command.push(`-e EXTERNAL_PORT=${DOCKER_NODE_PORT}`);
+  command.push(`-e FAIL_LIMIT=${DOCKER_FAIL_LIMIT}`);
+  command.push(`-e LOAD_AGENT_URL=${DOCKER_LOAD_AGENT_URL}`);
 
-  command.push(`-e ELK_INDEX=${ELK_INDEX}`);
-  command.push(`-e ELK_URL=${ELK_URL}`);
-  command.push(`-e ELK_USERNAME=${ELK_USERNAME}`);
-  command.push(`-e ELK_PASSWORD=${ELK_PASSWORD}`);
-  command.push(`-e ELK_KEY=${ELK_KEY}`);
+  command.push(`-e ELK_INDEX=${DOCKER_ELK_INDEX}`);
+  command.push(`-e ELK_URL=${DOCKER_ELK_URL}`);
+  command.push(`-e ELK_USERNAME=${DOCKER_ELK_USERNAME}`);
+  command.push(`-e ELK_PASSWORD=${DOCKER_ELK_PASSWORD}`);
+  command.push(`-e ELK_KEY=${DOCKER_ELK_KEY}`);
   
-  command.push(`--name ${NODE_NAME}`);
+  command.push(`--name ${DOCKER_NODE_NAME}`);
   command.push(`--network ${DOCKER_NETWORK}`)
   // command.push(`-p ${externalPort}:${NODE_PORT}`);
-  command.push(`-d ${IMAGE_NAME}`);
+  command.push(`-d ${DOCKER_IMAGE_NAME}`);
 
   let commandString = command.join(" ");
   logger.info(`Executing docker ${commandString}`);
