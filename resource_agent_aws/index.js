@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path : './.env.aws'});
 // require("./manager").init();
 
 const logger = require("log4js").getLogger("SampleApplication")
