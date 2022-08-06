@@ -33,7 +33,7 @@ const performRARA = (servers, req) => {
   if (servers.length == 1) return servers[0];
 
   let qosclass = parseInt(req.headers.qosclass, 10) || 20;
-  logger.info(`Incoming request require CPU : ${qosclass}`);
+  // logger.info(`Incoming request require CPU : ${qosclass}`);
 
   let bestFit = servers.find(
     (a) => a != null && a.cpu.free > qosclass + 10 && a.cpu.free < qosclass + 20
@@ -64,18 +64,22 @@ exports.init = (host, port) => {
   cm.init(host, port);
 };
 
-exports.handle = async (req, res) => {
+/**
+ * Handle HTTP Connection
+ */
+exports.handleHTTP = async (req, res) => {
   var handler = await selectServer(req);
   if (handler == null) {
+    logger.error(`Load Balancer : 502 Error : Outage due to not enough cpu to fullfill the requirement.`);
     elk.log(`Load Balancer : 502 Error : Outage due to not enough cpu to fullfill the requirement.`);
     res.writeHead(502, { 'Content-Type': 'text/plain' });
     res.end("Outage due to not enough cpu to fullfill the requirement.");
     return;
   }
 
-  /**
-   * Handle the request
-   */
+  logger.info(`Connecting to ${handler.options.target.host}:${handler.options.target.port} ${req.method} ${req.url}`);
+
+  // Handle the request
   handler.web(req, res);
 
   handler.on("error", function (err) {
@@ -84,4 +88,28 @@ exports.handle = async (req, res) => {
     res.writeHead(503, { 'Content-Type': 'text/plain' });
     res.end(`Outage due to connection lost : ${err}`);
   });
+
+};
+
+/**
+ * Handle Web Socket Connection
+ */
+exports.handleSocket = async (req, socket, head) => {
+  var handler = await selectServer(req);
+  if (handler == null) {
+    elk.log(`Load Balancer : 502-S Error : Outage due to not enough cpu to fullfill the requirement.`);
+    socket.end();
+    return;
+  }
+
+  logger.info(`Open Socket to ${handler.options.target.host}:${handler.options.target.port}`);
+
+  handler.on('error', function(err, req, socket) {
+    logger.error(`Something happen ${err}`);
+    elk.log(`Load Balancer : 503-S Error : ${err}`);
+    socket.end();
+  });
+  
+  // Handle the request
+  handler.ws(req, socket, head);
 };

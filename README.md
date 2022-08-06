@@ -9,3 +9,5 @@ This repository is for Research Topic - High Availability Study
 |3  | Recovery Agent| Perform Resource Agent Eviction and Recovery once receive Load Agent recovery notification |
 |4  | Resource Agent| Sample Application to run a workload, with a embedded resource agent to connect to Load Agent for status update|
 
+## Testing 
+ali http://localhost:8080 -d 0 -r 1

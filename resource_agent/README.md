@@ -6,23 +6,25 @@ This is a pluggable agent that embedded in node application to achieve hight ava
 ```
 export NODE_PORT=8021
 export NODE_NAME=NodeAgentA
-export EXTERNAL_HOST=host.docker.internal
+export EXTERNAL_HOST=localhost
 export EXTERNAL_PORT=8021
 export LOAD_AGENT_URL=http://localhost:3000
-export FAIL_LIMIT=5
+export FAIL_LIMIT=99999999999
+export TIME_LIMIT=600
 export ELK_INDEX=capstone
 export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
 export ELK_PASSWORD=0IsTKlK0XIHTEHgtS2Rv
 export ELK_KEY=./http_ca.crt
-node index.js 
+node index.js
 
 export NODE_PORT=8022
 export NODE_NAME=NodeAgentB
 export EXTERNAL_HOST=localhost
 export EXTERNAL_PORT=8022
 export LOAD_AGENT_URL=http://localhost:3000
-export FAIL_LIMIT=1000
+export FAIL_LIMIT=99999999999
+export TIME_LIMIT=600
 export ELK_INDEX=capstone
 export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
@@ -35,7 +37,8 @@ export NODE_NAME=NodeAgentB
 export EXTERNAL_HOST=localhost
 export EXTERNAL_PORT=8023
 export LOAD_AGENT_URL=http://localhost:3000
-export FAIL_LIMIT=1000
+export FAIL_LIMIT=99999999999
+export TIME_LIMIT=600
 export ELK_INDEX=capstone
 export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
@@ -58,7 +61,8 @@ docker run \
 -e NODE_NAME=${NODE_NAME} \
 -e EXTERNAL_HOST=${NODE_NAME} \
 -e EXTERNAL_PORT=8080 \
--e FAIL_LIMIT=1000 \
+-e FAIL_LIMIT=99999999 \
+-e TIME_LIMIT=600 \
 -e LOAD_AGENT_URL='http://LoadAgent:3000' \
 -e ELK_INDEX=capstone \
 -e ELK_URL=https://host.docker.internal:9200 \

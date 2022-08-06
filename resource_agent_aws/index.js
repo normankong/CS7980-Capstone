@@ -62,36 +62,6 @@ var stringToColour = function(str) {
 
 console.log(`${NODE_NAME} is listening in port ${NODE_PORT}`)
 
-
-var io = require('socket.io')(app);
-var clients = [];
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  clients.push(socket);
-
-  setInterval(()=>{
-    for (var i=0; i<clients.length; i++) {
-      clients[i].write(`Handling request ${count}/${FAIL_LIMIT}`);
-    }
-  }, 1000)
-
-  // Listen for data coming from clients.
-  socket.on('message', function(message) {
-    console.log(message)
-    // Broadcast the message to all connected clients.
-    for (var i=0; i<clients.length; i++) {
-      clients[i].write(`Reply from ${NODE_PORT} ${message}`);
-    }
-  });
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-    clients.splice(clients.indexOf(socket), 1);
-  });
-});
-
-
-
 // Implement the Time Killer Switch
 let timeKillerSwitch = () => {
   let startTime = moment()

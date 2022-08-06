@@ -45,8 +45,6 @@ exports.init = (host, port, scope) => {
 exports.disconnect = async (socket) => {
   logger.info(`Disconnect ${socket.id}`);
 
-  elk.log(`Load Agent : Service terminated, removing ${socket.id} from inventory`)
-
   let info = await cm.get(socket);
   if (info == null) {
     logger.info(`Record not found in database, skip cleanup`)
@@ -54,6 +52,8 @@ exports.disconnect = async (socket) => {
   }
 
   let json = JSON.parse(info);
+  elk.log(`Load Agent : Service terminated, removing ${socket.id} - ${json.info.nodeName} from inventory`)
+
   logger.info(`Notifiy recover agent : ${json.info.hostname}`);
   nm.notify(socket, json);
 

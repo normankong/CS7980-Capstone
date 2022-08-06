@@ -73,6 +73,7 @@ exports.provision = async () => {
   let DOCKER_IMAGE_NAME = process.env.DOCKER_IMAGE_NAME;
   let DOCKER_NETWORK = process.env.DOCKER_NETWORK;
   let DOCKER_FAIL_LIMIT = process.env.DOCKER_FAIL_LIMIT;
+  let DOCKER_EXHAUSTED_LIMIT = process.env.DOCKER_EXHAUSTED_LIMIT;
 
   let DOCKER_ELK_INDEX = process.env.DOCKER_ELK_INDEX;
   let DOCKER_ELK_URL = process.env.DOCKER_ELK_URL;
@@ -87,6 +88,7 @@ exports.provision = async () => {
   command.push(`-e EXTERNAL_HOST=${DOCKER_EXTERNAL_HOST}`);
   command.push(`-e EXTERNAL_PORT=${DOCKER_NODE_PORT}`);
   command.push(`-e FAIL_LIMIT=${DOCKER_FAIL_LIMIT}`);
+  command.push(`-e EXHAUSTED_LIMIT=${DOCKER_EXHAUSTED_LIMIT}`);
   command.push(`-e LOAD_AGENT_URL=${DOCKER_LOAD_AGENT_URL}`);
 
   command.push(`-e ELK_INDEX=${DOCKER_ELK_INDEX}`);
