@@ -1,14 +1,12 @@
 require("dotenv").config({ path : './.env.aws'});
 // require("./manager").init();
 
-const logger = require("log4js").getLogger("SampleApplication")
+const log4js = require("log4js")
+const logger = log4js.getLogger("SampleApplication")
 // const elk = require("./manager/elkLogger");
 const moment = require('moment')
 
-/**
- * Initialize ELK Logger
- */
-// elk.init();
+log4js.configure( "./config/log4js.json");
 
 /**
  * Sample application to illustrate the High Availability
