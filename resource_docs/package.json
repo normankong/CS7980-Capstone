@@ -1,0 +1,26 @@
+{
+  "name": "resource_agent",
+  "version": "1.0.0",
+  "description": "This is an sample implementation that embedded Resource Agent ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.2.1",
+    "@socket.io/redis-adapter": "^7.2.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "express-socket.io-session": "^1.3.5",
+    "log4js": "^6.5.2",
+    "node-os-utils": "^1.3.7",
+    "redis": "^4.2.0",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
+  }
+}

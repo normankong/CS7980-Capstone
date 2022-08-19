@@ -16,7 +16,7 @@ docker run \
 -e ELK_INDEX=capstone \
 -e ELK_URL=https://host.docker.internal:9200 \
 -e ELK_USERNAME=elastic \
--e ELK_PASSWORD="0IsTKlK0XIHTEHgtS2Rv" \
+-e ELK_PASSWORD="jBRAGOfKdcuA-yB1QSma" \
 -e ELK_KEY=./http_ca.crt \
 -p 8080:8080 \
 --name LoadBalancer \
