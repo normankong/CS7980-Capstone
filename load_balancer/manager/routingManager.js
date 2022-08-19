@@ -32,6 +32,10 @@ const performRARA = (servers, req) => {
   if (servers.length == 0) return null;
   if (servers.length == 1) return servers[0];
 
+  // let index = Math.floor(Math.random() * servers.length | 0);
+  // logger.info(`Routing request to ${index}`)
+  // return servers[index];
+
   let qosclass = parseInt(req.headers.qosclass, 10) || 20;
   // logger.info(`Incoming request require CPU : ${qosclass}`);
 

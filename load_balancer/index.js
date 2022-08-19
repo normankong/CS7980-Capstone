@@ -18,10 +18,10 @@ var serverCallback = function(req, res) {
 
 var server = http.createServer(serverCallback);
 
-// // Get the next server and send the upgrade request.
-// server.on('upgrade', function(req, socket, head) {
-//   router.handleSocket(req, socket, head);
-// });
+// Get the next server and send the upgrade request.
+server.on('upgrade', function(req, socket, head) {
+  router.handleSocket(req, socket, head);
+});
 
 
 server.listen(8080);
