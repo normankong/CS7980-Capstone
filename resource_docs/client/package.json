@@ -1,0 +1,39 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open",
+    "serve": "webpack serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "http-proxy-middleware": "^2.0.6",
+    "lodash": "^4.17.21",
+    "mini-css-extract-plugin": "^2.6.0",
+    "moment": "^2.29.4",
+    "momentjs": "^2.0.0",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
+    "quill": "^1.3.6",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.1",
+    "dotenv-webpack": "^8.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "socket.io-client": "^4.5.1",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.24",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  }
+}
