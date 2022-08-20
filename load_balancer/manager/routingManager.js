@@ -72,6 +72,15 @@ exports.init = (host, port) => {
  * Handle HTTP Connection
  */
 exports.handleHTTP = async (req, res) => {
+
+  if (req.url == "/status") {
+    let servers = await cm.list();
+    res.writeHead(200, { 'Content-Type': 'text/json' });
+    res.end(JSON.stringify(servers, null, 2));
+    return;
+  }
+
+
   var handler = await selectServer(req);
   if (handler == null) {
     logger.error(`Load Balancer : 502 Error : Outage due to not enough cpu to fullfill the requirement.`);
