@@ -9,4 +9,6 @@ export ELK_URL=https://localhost:9200
 export ELK_USERNAME=elastic
 export ELK_PASSWORD=jBRAGOfKdcuA-yB1QSma
 export ELK_KEY=./http_ca.crt
+export REDIS_HOST=localhost
+export REDIS_PORT=6379
 node index.js 

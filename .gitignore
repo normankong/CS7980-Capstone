@@ -130,11 +130,17 @@ dist
 .pnp.*
 
 reference
-StressTest
 elk
 resource_io
 resource_cpu
 resource_template
-resource_docs
+# resource_docs
 socket
 statistic
+python
+xxxanalystic
+classes/
+.idea/
+target/
+.DS_Store
+.vscode/

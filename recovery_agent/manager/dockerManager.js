@@ -81,6 +81,9 @@ exports.provision = async () => {
   let DOCKER_ELK_PASSWORD = process.env.DOCKER_ELK_PASSWORD;
   let DOCKER_ELK_KEY = process.env.DOCKER_ELK_KEY;
 
+  let DOCKER_REDIS_HOST=process.env.DOCKER_REDIS_HOST;
+  let DOCKER_REDIS_PORT=process.env.DOCKER_REDIS_PORT;
+
   let command = [];
   command.push(`run `); //--rm
   command.push(`-e NODE_PORT=${DOCKER_NODE_PORT}`);
@@ -96,6 +99,9 @@ exports.provision = async () => {
   command.push(`-e ELK_USERNAME=${DOCKER_ELK_USERNAME}`);
   command.push(`-e ELK_PASSWORD=${DOCKER_ELK_PASSWORD}`);
   command.push(`-e ELK_KEY=${DOCKER_ELK_KEY}`);
+  
+  command.push(`-e REDIS_HOST=${DOCKER_REDIS_HOST}`);
+  command.push(`-e REDIS_PORT=${DOCKER_REDIS_PORT}`);
   
   command.push(`--name ${DOCKER_NODE_NAME}`);
   command.push(`--network ${DOCKER_NETWORK}`)

@@ -17,6 +17,8 @@ elk.init();
 let NODE_NAME=process.env.NODE_NAME;
 let NODE_PORT=process.env.NODE_PORT;
 let FAIL_LIMIT=process.env.FAIL_LIMIT || 500;
+let REDIS_HOST=process.env.REDIS_HOST;
+let REDIS_PORT=process.env.REDIS_PORT;
 
 let count = 0;
 
@@ -69,8 +71,10 @@ var stringToColour = function(str) {
 console.log(`${NODE_NAME} is listening in port ${NODE_PORT}`)
 
 var io = require('socket.io')(app);
-
-const pubClient = createClient({ url: "redis://localhost:6379" });
+let url = `redis://${REDIS_HOST}:${REDIS_PORT}`;
+console.log(`Connecting redis server at ${url}`);
+// const pubClient = createClient({ url: "redis://localhost:6379" });
+const pubClient = createClient({ url });
 const subClient = pubClient.duplicate();
 Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
   io.adapter(createAdapter(pubClient, subClient));
