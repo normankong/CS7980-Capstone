@@ -33,22 +33,22 @@ exports.recycle = (instance) => {
 
   const cleanup = async (instance) => {
     try {
-      logger.info(
+      logger.debug(
         `Executing "docker container inspect --format '{{.State.Running}} ${instance}`
       );
       let state = await docker.command(
         `container inspect --format '{{.State.Running}}' ${instance}`
       );
-      logger.info(`Running Status : ${state.object}`);
+      logger.debug(`Running Status : ${state.object}`);
       if (state.object) {
-        logger.info(`Executing "docker kill ${instance}"`);
+        logger.debug(`Executing "docker kill ${instance}"`);
         let response = await docker.command(`container kill ${instance}`);
-        logger.info(`Response : ${response}`);
+        logger.debug(`Response : ${response}`);
       }
 
-      logger.info("Remove orphan instance");
+      logger.debug("Remove orphan instance");
       let response = await docker.command(`container rm ${instance}`);
-      logger.info("Response : ", response);
+      logger.debug("Response : ", response);
     } catch (exception) {
       logger.error(`Unable to cleanup ${instance}`, exception);
     }
@@ -109,9 +109,10 @@ exports.provision = async () => {
   command.push(`-d ${DOCKER_IMAGE_NAME}`);
 
   let commandString = command.join(" ");
-  logger.info(`Executing docker ${commandString}`);
+  // logger.info(`Executing docker ${commandString}`);
+  logger.info(`Executing docker to provision : ${DOCKER_IMAGE_NAME} : ${DOCKER_NODE_NAME}`)
 
   docker.command(commandString).then(function (data) {
-    logger.info(`Response : `, data);
+    // logger.info(`Response : `, data);
   });
 };

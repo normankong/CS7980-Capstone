@@ -22,11 +22,12 @@
       "appender": "errorFile"
     },
     "console" : {
-      "type" : "console"
+      "type" : "console",
+      "level": "DEBUG"
     }
   },
   "categories": {
-    "default": { "appenders": ["app", "errors", "console"], "level": "DEBUG" },
+    "default": { "appenders": ["app", "errors", "console"], "level": "INFO" },
     "http": { "appenders": ["access"], "level": "DEBUG" }
   }
 }
